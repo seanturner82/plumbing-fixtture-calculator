@@ -14,7 +14,7 @@ export type FixtureQuantities = Record<string, number>; // fixtureId → qty
 export interface RowResult {
   id: string;
   name: string;
-  category: string;
+  section: string;
   qty: number;
   dfu: number;
   hotWSFU: number;
@@ -63,7 +63,7 @@ export function calculate(quantities: FixtureQuantities): CalcResults {
     return {
       id: f.id,
       name: f.name,
-      category: f.category,
+      section: f.section,
       qty,
       dfu: f.dfu,
       hotWSFU: f.hotWSFU,

@@ -3,6 +3,7 @@ import ProjectHeader from './components/ProjectHeader';
 import FixtureTable from './components/FixtureTable';
 import ResultsPanel from './components/ResultsPanel';
 import ExportButtons from './components/ExportButtons';
+import InfoModal from './components/InfoModal';
 import { calculate } from './utils/calculations';
 import type { FixtureQuantities } from './utils/calculations';
 import type { ProjectInfo } from './utils/exporters';
@@ -19,6 +20,7 @@ const EMPTY_PROJECT: ProjectInfo = {
 export default function App() {
   const [project, setProject] = useState<ProjectInfo>(EMPTY_PROJECT);
   const [quantities, setQuantities] = useState<FixtureQuantities>({});
+  const [showInfo, setShowInfo] = useState(false);
 
   function handleQtyChange(id: string, qty: number) {
     setQuantities((prev) => ({ ...prev, [id]: qty }));
@@ -28,15 +30,23 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-gray-100">
+      {showInfo && <InfoModal onClose={() => setShowInfo(false)} />}
       {/* Top Bar */}
-      <header className="bg-blue-800 text-white shadow-md">
+      <header className="bg-[#375623] text-white shadow-md">
         <div className="max-w-screen-xl mx-auto px-6 py-4 flex items-baseline justify-between">
           <div>
-            <h1 className="text-xl font-bold tracking-tight">IPC Plumbing Fixture Calculator</h1>
-            <p className="text-blue-200 text-xs mt-0.5">2006–2018 International Plumbing Code</p>
+            <h1 className="text-xl font-bold tracking-tight">Plumbing Fixture Calculator</h1>
+            <p className="text-green-300 text-xs mt-0.5">International Plumbing Code</p>
           </div>
-          <div className="text-right">
-            <p className="text-blue-200 text-xs">Session-based · Data not saved on refresh</p>
+          <div className="text-right flex items-center gap-3">
+            <p className="text-green-300 text-xs">Session-based · Data not saved on refresh</p>
+            <button
+              onClick={() => setShowInfo(true)}
+              className="w-6 h-6 rounded-full border border-green-300 text-green-200 hover:bg-green-700 hover:text-white text-xs font-bold leading-none flex items-center justify-center"
+              aria-label="About this calculator"
+            >
+              i
+            </button>
           </div>
         </div>
       </header>
@@ -55,10 +65,8 @@ export default function App() {
         <ExportButtons project={project} results={results} />
       </main>
 
-      <footer className="max-w-screen-xl mx-auto px-6 py-4 text-xs text-gray-400 border-t border-gray-200 mt-4">
-        IPC Plumbing Fixture Calculator · 2006–2018 IPC · Hunter's Curve piecewise polynomial
-        interpolation · v1.11 data · For preliminary sizing only — always verify per project-specific
-        conditions and applicable code.
+      <footer className="max-w-screen-xl mx-auto px-6 py-4 text-xs text-gray-400 border-t border-gray-200 mt-4 text-center">
+        A Henderson Companies tool. © 2026 Henderson Companies. All rights reserved.
       </footer>
     </div>
   );
